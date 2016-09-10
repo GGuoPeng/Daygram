@@ -1,0 +1,30 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    <LinearLayout
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/diary_show_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <ListView
+            android:layout_height="0dip"
+            android:layout_width="fill_parent"
+            android:id="@+id/diary_info_list"
+            android:fadingEdge="vertical"
+            android:divider="@android:color/white"
+            android:dividerHeight="2px"
+            android:listSelector="@android:color/transparent"
+            android:cacheColorHint="@null"
+            android:layout_weight="8"/>
+        <DatePicker
+            android:id="@+id/dpPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+</FrameLayout>

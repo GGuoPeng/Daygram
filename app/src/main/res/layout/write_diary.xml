@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:stretchColumns="1">
+
+    <TableLayout
+        android:id="@+id/title_lable"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFE4C4">
+        <TableRow >
+            <TextView
+                android:id="@+id/time"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/time"
+                android:padding="20dp"/>
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/week"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textSize="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/week"
+                android:padding="20dp"
+                />
+        </TableRow>
+    </TableLayout>
+    <EditText
+        android:id="@+id/diary_info"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="top"
+        android:layout_below="@+id/title_lable"
+        />
+</RelativeLayout>

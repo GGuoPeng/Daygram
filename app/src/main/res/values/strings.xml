@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Diagram</string>
+    <string name="time">时间</string>
+    <string name="week">星期</string>
+</resources>
