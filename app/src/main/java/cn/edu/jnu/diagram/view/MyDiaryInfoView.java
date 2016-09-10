@@ -40,4 +40,5 @@ public class MyDiaryInfoView {
         this.checkBox = checkBox;
     }
     public int testchange;
+    public int testchange2;
 }
