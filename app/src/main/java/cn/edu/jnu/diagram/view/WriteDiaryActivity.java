@@ -21,6 +21,7 @@ import cn.edu.jnu.diagram.db.DataBaseHelper;
 /**
  * Created by lenovo on 2016/9/9.
  */
+//helloworld
 public class WriteDiaryActivity extends Activity {
     private int id;
     private TextView timeTextView=null;
