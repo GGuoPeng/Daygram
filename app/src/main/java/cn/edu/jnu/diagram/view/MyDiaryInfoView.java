@@ -39,5 +39,5 @@ public class MyDiaryInfoView {
     public void setCheckBox(CheckBox checkBox) {
         this.checkBox = checkBox;
     }
-
+    public int testchange;
 }
