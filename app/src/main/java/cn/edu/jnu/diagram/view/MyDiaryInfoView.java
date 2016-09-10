@@ -41,4 +41,5 @@ public class MyDiaryInfoView {
     }
     public int testchange;
     public int testchange2;
+    public int asd;
 }
