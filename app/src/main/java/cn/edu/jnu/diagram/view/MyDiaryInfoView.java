@@ -21,12 +21,6 @@ public class MyDiaryInfoView {
     public void setWeek(TextView week) {
         this.week = week;
     }
-    public TextView getWeather() {
-        return weather;
-    }
-    public void setWeather(TextView weather) {
-        this.weather = weather;
-    }
     public TextView getDiaryInfo() {
         return diaryInfo;
     }
