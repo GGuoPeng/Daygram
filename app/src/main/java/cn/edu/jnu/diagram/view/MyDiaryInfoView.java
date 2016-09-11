@@ -1,12 +1,16 @@
 package cn.edu.jnu.diagram.view;
 
+import android.annotation.TargetApi;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
+import android.net.ParseException;
+import android.os.Build;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
 public class MyDiaryInfoView {
     public TextView date;
     public TextView week;
-    public TextView weather;
     public TextView diaryInfo;
     public CheckBox checkBox;
     public TextView getDate() {

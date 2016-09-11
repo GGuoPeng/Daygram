@@ -21,7 +21,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         this(context, name,null,version);
     }
     private final static String TABLE_INFO="create table DIARY_INFO" +
-            "(date TEXT,week TEXT,diaryinfo TEXT,id INTEGER PRIMARY KEY AUTOINCREMENT)";
+            "(date TEXT,year TEXT,month TEXT,day TEXT,week TEXT,diaryinfo TEXT,id INTEGER PRIMARY KEY AUTOINCREMENT)";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
