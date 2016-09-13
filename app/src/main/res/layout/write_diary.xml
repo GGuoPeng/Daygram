@@ -1,44 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:stretchColumns="1">
-
-    <TableLayout
-        android:id="@+id/title_lable"
-        android:layout_width="fill_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFE4C4">
-        <TableRow >
-            <TextView
-                android:id="@+id/time"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textSize="15sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/time"
-                android:padding="20dp"/>
-            <TextView
-                android:layout_weight="1"
-                android:id="@+id/week"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textSize="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/week"
-                android:padding="20dp"
-                />
-        </TableRow>
-    </TableLayout>
-    <EditText
-        android:id="@+id/diary_info"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="top"
-        android:layout_below="@+id/title_lable"
-        />
-</RelativeLayout>
+        android:orientation="horizontal"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="@string/time"
+            android:padding="20dp"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="@string/week"
+            android:padding="20dp"
+            android:textColor="@android:color/black"
+            android:textSize="15dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2000">
+        <EditText
+            android:id="@+id/diary_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="top" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/cancel" />
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/confirm" />
+    </LinearLayout>
+</LinearLayout>

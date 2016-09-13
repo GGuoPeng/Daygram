@@ -1,19 +1,26 @@
 package cn.edu.jnu.diagram.view;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 import cn.edu.jnu.diagram.R;
 import cn.edu.jnu.diagram.db.DataBaseHelper;
@@ -21,25 +28,28 @@ import cn.edu.jnu.diagram.db.DataBaseHelper;
 /**
  * Created by lenovo on 2016/9/9.
  */
-//helloworld
+
 public class WriteDiaryActivity extends Activity {
+    private static final String TAG = "PRESSED";
     private int id;
-    private TextView timeTextView=null;
-    private TextView weekTextView=null;
-    private Calendar cal=Calendar.getInstance();
-    private Date date=null;
-    private SimpleDateFormat simpleDateFormat=null;
+    private TextView timeTextView = null;
+    private TextView weekTextView = null;
+    private Date date = null;
+    private Button cancel = null;
+    private Button confirm = null;
+    private SimpleDateFormat simpleDateFormat = null;
     public static final int WEEKDAYS = 7;
-    public static EditText diaryInfo=null;
+    public static EditText diaryInfo = null;
     public static String[] WEEK = {
+            "Sunday",
             "Monday",
             "Tuesday",
             "Wednesday",
             "Thursday",
             "Friday",
             "Saturday",
-            "Sunday"
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -47,35 +57,36 @@ public class WriteDiaryActivity extends Activity {
         init();
     }
 
-    public void init(){
+    public void init() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.write_diary);
-        date=cal.getTime();
-        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        timeTextView=(TextView)findViewById(R.id.time);
-        timeTextView.setText(simpleDateFormat.format(date));
-        weekTextView=(TextView)findViewById(R.id.week);
-        weekTextView.setText(DateToWeek(date));
-        diaryInfo=(EditText)findViewById(R.id.diary_info);
+        Intent intent = getIntent();
+        timeTextView = (TextView) findViewById(R.id.time);
+        timeTextView.setText(intent.getStringExtra("date"));
+        weekTextView = (TextView) findViewById(R.id.week);
+        weekTextView.setText(intent.getStringExtra("week"));
+        diaryInfo = (EditText) findViewById(R.id.diary_info);
         diaryInfo.setTextSize(20f);
-        try {
-            Bundle bundle=getIntent().getExtras();
-            if (bundle!=null) {
-                String date=bundle.getString("date");
-                String week=bundle.getString("week");
-                String diary=bundle.getString("diaryinfo");
-                id=bundle.getInt("id");
-                timeTextView.setText(date);
-                weekTextView.setText(week);
-                diaryInfo.setText(diary);
+        cancel = (Button) findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(WriteDiaryActivity.this, MainActivity.class);
+                startActivity(intent);
             }
-        } catch (Exception e) {
-            // TODO: handle exception
-            Log.d("WriteDiaryActivity", e.toString());
-        }
+        });
+        confirm = (Button) findViewById(R.id.confirm);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                backPressed();
+                Intent intent = new Intent();
+                intent.setClass(WriteDiaryActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
-    public static String DateToWeek(Date date){
+    public static String DateToWeek(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int dayIndex = calendar.get(Calendar.DAY_OF_WEEK);
@@ -92,35 +103,29 @@ public class WriteDiaryActivity extends Activity {
         backPressed();
     }
 
-    public void backPressed(){
-        if (id==0) {
-            if (!diaryInfo.getText().toString().trim().equals("")&&diaryInfo!=null) {
-                String insertInfo="insert into DIARY_INFO(date,week,diaryinfo) values" +
-                        "('"+timeTextView.getText().toString()+"','"+weekTextView.getText().toString()+"','"+diaryInfo.getText().toString()+"','"+diaryInfo.getTextSize()+"')";
-                try {
-                    DataBaseHelper dbHelper=new DataBaseHelper(this, "mydiary.db");
-                    SQLiteDatabase db=dbHelper.getWritableDatabase();
-                    db.execSQL(insertInfo);
-                    db.close();
-                } catch (Exception e) {
-                    Log.d("WriteDiaryActivity", e.toString());
-                }
-                this.finish();
-            }
-        }
-        else {
-            String updateInfo="UPDATE DIARY_INFO SET date='"+timeTextView.getText().toString()+
-                    "',week='"+weekTextView.getText().toString()+"',diaryinfo='"+
-                    diaryInfo.getText().toString()+
-                    "' where id='"+id+"'";
-            try {
-                DataBaseHelper dbHelper=new DataBaseHelper(this, "mydiary.db");
-                SQLiteDatabase db=dbHelper.getWritableDatabase();
-                db.execSQL(updateInfo);
-                db.close();
-            } catch (Exception e) {
-                Log.d("WriteDiaryActivity", e.toString());
-            }
+    public void backPressed() {
+        //内容为空
+        String dates = timeTextView.getText().toString();
+        String[] datelist = dates.split("-");
+        if (!diaryInfo.getText().toString().trim().equals("")) {
+            String insertSql = "insert into DIARY_INFO(date,year,month,day,week,diaryinfo) values" +
+                    "('" + timeTextView.getText().toString() + "','" + datelist[0] + "','" + datelist[1] + "','"
+                    + datelist[2] + "','" + weekTextView.getText().toString() +
+                    "','" + diaryInfo.getText().toString() + "')";
+            DataBaseHelper dbHelper = new DataBaseHelper(this, "mydiary.db");
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            db.execSQL(insertSql);
+            db.close();
+            this.finish();
+        } else {
+            String updateInfo = "UPDATE DIARY_INFO SET date='" + timeTextView.getText().toString() +
+                    "',week='" + weekTextView.getText().toString() + "',diaryinfo='" +
+                    diaryInfo.getText().toString() +
+                    "' where id='" + id + "'";
+            DataBaseHelper dbHelper = new DataBaseHelper(this, "mydiary.db");
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            db.execSQL(updateInfo);
+            db.close();
             this.finish();
         }
     }

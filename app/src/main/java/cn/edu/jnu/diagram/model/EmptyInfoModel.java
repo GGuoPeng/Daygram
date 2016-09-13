@@ -12,7 +12,6 @@ public class EmptyInfoModel {
     private String year;
     private String month;
     private String day;
-    private String week;        //周几
 
     public String getDate() {
         return year + "-" + month + "-" + day;
@@ -40,42 +39,6 @@ public class EmptyInfoModel {
 
     public void setDay(String day) {
         this.day = day;
-    }
-
-    public String getWeek() {
-        return week;
-    }
-
-    public void setWeek(String week) {
-        this.week = week;
-    }
-
-    public String getWeek(String pTime) {
-        String Week = "";
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar c = Calendar.getInstance();
-        if (c.get(Calendar.DAY_OF_WEEK) == 1) {
-            Week += "Sunday";
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 2) {
-            Week += "Monday";
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 3) {
-            Week += "Tuesday";
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 4) {
-            Week += "Wednesday";
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 5) {
-            Week += "Thursday";
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 6) {
-            Week += "Friday";
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 7) {
-            Week += "Saturday";
-        }
-        return Week;
     }
 
     public int getId() {

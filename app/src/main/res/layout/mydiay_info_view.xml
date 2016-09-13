@@ -1,62 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:stretchColumns="1" >
-    <TableLayout
-        android:id="@+id/view_title_lable"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@null">
-        <TableRow >
-            <TextView
-                android:id="@+id/view_date"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textSize="15sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="2dp"
-                />
-            <TextView
-                android:layout_weight="1"
-                android:id="@+id/view_week"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textSize="15sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="2dp"
-                />
-            <TextView
-                android:layout_weight="1"
-                android:id="@+id/view_weather"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textSize="15sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="2dp"
-                />
-        </TableRow>
-    </TableLayout>
-    <TextView
-        android:id="@+id/view_diary_info"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:textSize="14sp"
-        android:textColor="@android:color/black"
-        android:gravity="top"
-        android:layout_below="@+id/view_title_lable"
-        />
-    <CheckBox
-        android:id="@+id/view_checkbox"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:baselineAligned="false">
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checked="false"
-        android:focusable="false"
-        android:layout_alignRight="@+id/view_title_lable"
-        android:visibility="gone"
-        />
-</RelativeLayout>
+        android:orientation="vertical"
+        android:layout_weight="0.01">
+        <TextView
+            android:id="@+id/view_date"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textview_border"
+            android:gravity="center"
+            android:padding="2dp"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/view_week"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textview_border"
+            android:gravity="center"
+            android:padding="2dp"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="5.5"
+        android:weightSum="1">
+        <TextView
+            android:id="@+id/view_diary_info"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/textview_border"
+            android:gravity="top"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+    </LinearLayout>
+</LinearLayout>

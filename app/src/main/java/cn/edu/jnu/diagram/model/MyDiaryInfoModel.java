@@ -8,7 +8,9 @@ public class MyDiaryInfoModel {
     private String date;        //日期
     private String week;        //周几
     private String diaryInfo;   //日记内容
-    private boolean checked;
+    private String year;
+    private String month;
+    private String day;
     public String getDate() {
         return date;
     }
@@ -21,6 +23,24 @@ public class MyDiaryInfoModel {
     public void setWeek(String week) {
         this.week = week;
     }
+    public String getYear() {
+        return year;
+    }
+    public void setYear(String year) {
+        this.year = year;
+    }
+    public String getMonth() {
+        return month;
+    }
+    public void setMonth(String month) {
+        this.month = month;
+    }
+    public String getDay() {
+        return day;
+    }
+    public void setDay(String day) {
+        this.day = day;
+    }
     public String getDiaryInfo() {
         return diaryInfo;
     }
@@ -32,11 +52,5 @@ public class MyDiaryInfoModel {
     }
     public void setId(int id) {
         this.id = id;
-    }
-    public boolean getChecked() {
-        return checked;
-    }
-    public void setChecked(boolean checked) {
-        this.checked = checked;
     }
 }

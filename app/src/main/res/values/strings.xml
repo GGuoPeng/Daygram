@@ -2,6 +2,9 @@
     <string name="app_name">Diagram</string>
     <string name="time">时间</string>
     <string name="week">星期</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
     <item name="tag_info" type="id"></item>
     <item name="tag_empty" type="id"></item>
+    <string name="diary_finished">日记已经写过,不能在写,只可编辑</string>
 </resources>
