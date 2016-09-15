@@ -24,7 +24,7 @@ import java.util.HashMap;
 
 import cn.edu.jnu.diagram.R;
 import cn.edu.jnu.diagram.db.DataBaseHelper;
-
+import android.util.Log;
 /**
  * Created by lenovo on 2016/9/9.
  */
@@ -115,6 +115,7 @@ public class WriteDiaryActivity extends Activity {
             DataBaseHelper dbHelper = new DataBaseHelper(this, "mydiary.db");
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             db.execSQL(insertSql);
+            Log.d("debug",insertSql);
             db.close();
             this.finish();
         } else {

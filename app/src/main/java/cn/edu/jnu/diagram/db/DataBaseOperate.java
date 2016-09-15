@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
+import android.util.Log;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -24,11 +25,14 @@ public class DataBaseOperate {
         this.activity = activity;
         this.listInfo = info;
         this.listEmpty = empty;
+        Log.d("debug","database operate");
     }
 
     public void showInfo(String tableName, String current_year, String current_month) {
+        Log.d("debug","database show info");
         DataBaseHelper dbHelper = new DataBaseHelper(activity.getBaseContext(), "mydiary.db");
         SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Log.d("debug",db.getPath());
         listInfo.clear();
         listEmpty.clear();
         String[] selectionArgs;
