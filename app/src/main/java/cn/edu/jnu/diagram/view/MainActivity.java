@@ -2,6 +2,7 @@ package cn.edu.jnu.diagram.view;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.LauncherActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,12 +38,12 @@ public class MainActivity extends Activity {
     private DatePicker datePicker = null;
     private TextView diaryShowDate = null;
     private DataBaseOperate dbOperate = null;
-
+    private MyDiaryInfoAdapter myDiaryInfoAdapter = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d("debug","main activity create");
         super.onCreate(savedInstanceState);
         init();
+
     }
 
     @Override
@@ -52,7 +53,6 @@ public class MainActivity extends Activity {
     }
 
     public void datePickInit(DatePicker dPicker, final TextView showDate) {
-        Log.d("debug","datePick init");
         Calendar cal = Calendar.getInstance();
         // 获取年月日时分秒的信息  
         int year = cal.get(Calendar.YEAR);
@@ -71,7 +71,6 @@ public class MainActivity extends Activity {
     }
 
     public void init() {
-        Log.d("debug","main activity init");
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.main);
         myDiaryInfoListView = (ListView) findViewById(R.id.diary_info_list);
@@ -85,11 +84,10 @@ public class MainActivity extends Activity {
     }
 
     public void refreshDiaryInfo(ListView listView, DatePicker dpPicker, String tableName) {
-        Log.d("debug","refresh diary info");
         String current_year = String.valueOf(dpPicker.getYear());
         String current_month = String.valueOf(dpPicker.getMonth()+1);
         dbOperate.showInfo(tableName, current_year, current_month);
-        MyDiaryInfoAdapter myDiaryInfoAdapter = new MyDiaryInfoAdapter(this, listInfo, listEmpty);
+        myDiaryInfoAdapter = new MyDiaryInfoAdapter(this, listInfo, listEmpty);
         listView.setAdapter(myDiaryInfoAdapter);
         listView.setVerticalScrollBarEnabled(true);
         listView.setOnItemClickListener(new ListClickListener());
@@ -101,19 +99,18 @@ public class MainActivity extends Activity {
                                 long id) {
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, WriteDiaryActivity.class);
-            if (v.getTag() instanceof MyDiaryInfoModel) {
-                //强制类型转换
-                MyDiaryInfoModel temp_info = (MyDiaryInfoModel) listInfo.get(position);
-                //传递数据
-                intent.putExtra("date", temp_info.getDate());
-                intent.putExtra("week", temp_info.getWeek());
-                intent.putExtra("diaryinfo", temp_info.getDiaryInfo());
-                intent.putExtra("id", temp_info.getId());
+            //点击了有信息的日记
+            if (myDiaryInfoListView.getAdapter().getItemViewType(position)==0) {
+                intent.putExtra("year",String.valueOf(datePicker.getYear()));
+                intent.putExtra("month",String.valueOf(datePicker.getMonth()+1));
+                intent.putExtra("day",String.valueOf(position+1));
                 startActivity(intent);
-            } else {
-                EmptyInfoModel temp_empty = (EmptyInfoModel) listEmpty.get(position);
-                intent.putExtra("id", temp_empty.getId());
-                intent.putExtra("date",temp_empty.getDate());
+            }
+            //无信息的日记
+            else {
+                intent.putExtra("year",String.valueOf(datePicker.getYear()));
+                intent.putExtra("month",String.valueOf(datePicker.getMonth()+1));
+                intent.putExtra("day",String.valueOf(position+1));
                 startActivity(intent);
             }
         }

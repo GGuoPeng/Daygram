@@ -25,14 +25,11 @@ public class DataBaseOperate {
         this.activity = activity;
         this.listInfo = info;
         this.listEmpty = empty;
-        Log.d("debug","database operate");
     }
 
     public void showInfo(String tableName, String current_year, String current_month) {
-        Log.d("debug","database show info");
         DataBaseHelper dbHelper = new DataBaseHelper(activity.getBaseContext(), "mydiary.db");
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Log.d("debug",db.getPath());
         listInfo.clear();
         listEmpty.clear();
         String[] selectionArgs;
@@ -43,7 +40,7 @@ public class DataBaseOperate {
             selectionArgs = new String[]{current_year, current_month, String.valueOf(i + 1)};
             cursor = db.query(tableName, null, "year=? and month=? and day=?",
                     selectionArgs, null, null, "day desc");
-            if (cursor.isAfterLast() || cursor.isBeforeFirst()) {
+            if (!cursor.moveToFirst()) {
                 EmptyInfoModel myEmptyInfo = new EmptyInfoModel();
                 myEmptyInfo.setYear(current_year);
                 myEmptyInfo.setMonth(current_month);

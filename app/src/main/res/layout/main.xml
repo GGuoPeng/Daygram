@@ -1,7 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#F2F1ED">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -18,12 +19,10 @@
         <ListView
             android:id="@+id/diary_info_list"
             android:layout_width="match_parent"
-            android:layout_height="360dp"
-            android:cacheColorHint="@null"
-            android:divider="@android:color/black"
-            android:dividerHeight="2dp"
-            android:fadingEdge="vertical"
-            android:listSelector="@android:color/transparent" />
+            android:layout_height="380dp"
+            android:dividerHeight="20dp"
+            android:divider="#F2F1ED"
+            android:fadingEdge="vertical" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

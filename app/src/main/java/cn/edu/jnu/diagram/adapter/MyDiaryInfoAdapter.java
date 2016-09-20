@@ -1,6 +1,7 @@
 package cn.edu.jnu.diagram.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ public class MyDiaryInfoAdapter extends BaseAdapter {
      * item info 的Viewholder
      */
     private static class ViewHolderInfo {
-        TextView date;
+        TextView day;
         TextView week;
         TextView describe;
     }
@@ -32,7 +33,7 @@ public class MyDiaryInfoAdapter extends BaseAdapter {
      * item empty 的Viewholder
      */
     private static class ViewHolderEmpty {
-        TextView date;
+        String date;
         ImageView img;
     }
     private Context context;
@@ -44,8 +45,9 @@ public class MyDiaryInfoAdapter extends BaseAdapter {
         this.mInflater = LayoutInflater.from(context);
         //把数据装载同一个list里面
         //这里把所有数据都转为object类型是为了装载同一个list里面好进行排序
-        data.addAll(info);
         data.addAll(empty);
+        data.addAll(info);
+
         //按时间排序来填充数据
         Collections.sort(data, new MyComparator());
     }
@@ -107,7 +109,7 @@ public class MyDiaryInfoAdapter extends BaseAdapter {
             switch (type) {
                 case TYPE_INFO:
                     convertView = mInflater.inflate( R.layout.mydiay_info_view,null);
-                    holderInfo.date = (TextView) convertView.findViewById(R.id.view_date);
+                    holderInfo.day = (TextView) convertView.findViewById(R.id.view_date);
                     holderInfo.week = (TextView) convertView.findViewById(R.id.view_week);
                     holderInfo.describe = (TextView) convertView.findViewById(R.id.view_diary_info);
                     convertView.setTag(R.id.tag_info, holderInfo);
@@ -137,12 +139,15 @@ public class MyDiaryInfoAdapter extends BaseAdapter {
             case TYPE_INFO:
                 MyDiaryInfoModel a = (MyDiaryInfoModel) o;
                 holderInfo.describe.setText(a.getDiaryInfo());
-                holderInfo.date.setText(a.getDate());
+                holderInfo.day.setText(a.getDay());
                 holderInfo.week.setText(a.getWeek());
+                Log.d("adapter","info");
                 break;
             case TYPE_EMPTY:
                 EmptyInfoModel b = (EmptyInfoModel) o;
+                holderEmpty.date = b.getDate();
                 holderEmpty.img.setImageResource((Integer)holderEmpty.img.getTag());
+                Log.d("adapter","empty");
                 break;
         }
         return convertView;
@@ -158,7 +163,7 @@ public class MyDiaryInfoAdapter extends BaseAdapter {
             } else if (arg0 instanceof EmptyInfoModel && arg1 instanceof MyDiaryInfoModel) {
                 EmptyInfoModel a0 = (EmptyInfoModel) arg0;
                 MyDiaryInfoModel a1 = (MyDiaryInfoModel) arg1;
-                return Integer.valueOf(a1.getDate().split("-")[2]).compareTo(Integer.valueOf(a0.getDate().split("-")[2]));
+                return Integer.valueOf(a0.getDate().split("-")[2]).compareTo(Integer.valueOf(a1.getDate().split("-")[2]));
             } else if (arg0 instanceof MyDiaryInfoModel && arg1 instanceof MyDiaryInfoModel) {
                 MyDiaryInfoModel a0 = (MyDiaryInfoModel) arg0;
                 MyDiaryInfoModel a1 = (MyDiaryInfoModel) arg1;

@@ -17,7 +17,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public DataBaseHelper(Context context,String name,int version){
         this(context, name,null,version);
     }
-    private final static String TABLE_INFO="create table if not exists  DIARY_INFO" +
+    private final static String TABLE_INFO="create table DIARY_INFO" +
             "(date TEXT,year TEXT,month TEXT,day TEXT,week TEXT,diaryinfo TEXT,id INTEGER PRIMARY KEY AUTOINCREMENT)";
     @Override
     public void onCreate(SQLiteDatabase db) {

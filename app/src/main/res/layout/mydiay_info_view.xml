@@ -3,43 +3,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:baselineAligned="false">
+    android:baselineAligned="false"
+    android:background="#F2F1ED">
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_weight="0.01">
+        android:layout_weight="1"
+        android:layout_marginLeft="30dp">
         <TextView
             android:id="@+id/view_date"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/textview_border"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/textview_border_bottom"
             android:gravity="center"
             android:padding="2dp"
             android:textColor="@android:color/black"
             android:textSize="15sp" />
         <TextView
             android:id="@+id/view_week"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/textview_border"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/textview_border_top"
             android:gravity="center"
             android:padding="2dp"
             android:textColor="@android:color/black"
             android:textSize="15sp" />
+
     </LinearLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="5.5"
-        android:weightSum="1">
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:layout_marginRight="30dp">
         <TextView
             android:id="@+id/view_diary_info"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@drawable/textview_border"
-            android:gravity="top"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:background="@drawable/textview_border_left"
+            android:gravity="center"
             android:textColor="@android:color/black"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_weight="2.00" />
     </LinearLayout>
 </LinearLayout>
