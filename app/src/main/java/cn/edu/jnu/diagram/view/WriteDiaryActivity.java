@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -27,6 +29,7 @@ import java.util.HashMap;
 
 import cn.edu.jnu.diagram.R;
 import cn.edu.jnu.diagram.db.DataBaseHelper;
+import cn.edu.jnu.diagram.model.RichTextEditor;
 
 import android.util.Log;
 
@@ -122,6 +125,8 @@ public class WriteDiaryActivity extends Activity {
                 }
             }
         });
+
+
     }
 
     public void backPressed(String diaryinfo) {
@@ -160,4 +165,16 @@ public class WriteDiaryActivity extends Activity {
         int w = (y + (y / 4) + (c / 4) - 2 * c + (26 * (m + 1) / 10) + d - 1) % 7;
         return WEEK[w];
     }
+
+    private static final int REQUEST_CODE_PICK_IMAGE = 1023;
+    private static final int REQUEST_CODE_CAPTURE_CAMEIA = 1022;
+    private RichTextEditor editor;
+    private View btn1, btn2, btn3;
+    private View.OnClickListener btnListener;
+
+    private static final File PHOTO_DIR = new File(
+            Environment.getExternalStorageDirectory() + "/DCIM/Camera");
+    private File mCurrentPhotoFile;// 照相机拍照得到的图片
+
+
 }
