@@ -2,6 +2,7 @@ package cn.edu.jnu.diagram.db;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
@@ -48,22 +49,31 @@ public class DataBaseOperate {
                 myEmptyInfo.setImgResourceID(R.id.empty_img);
                 listEmpty.add(myEmptyInfo);
             } else {
-                MyDiaryInfoModel myDiaryInfo = new MyDiaryInfoModel();
-                int id = cursor.getInt(cursor.getColumnIndex("id"));
-                String date = cursor.getString(cursor.getColumnIndex("date"));
-                String week = cursor.getString(cursor.getColumnIndex("week"));
-                String year = cursor.getString(cursor.getColumnIndex("year"));
-                String month = cursor.getString(cursor.getColumnIndex("month"));
-                String day = cursor.getString(cursor.getColumnIndex("day"));
-                String diaryInfo = cursor.getString(cursor.getColumnIndex("diaryinfo"));
-                myDiaryInfo.setDate(date);
-                myDiaryInfo.setYear(year);
-                myDiaryInfo.setMonth(month);
-                myDiaryInfo.setDay(day);
-                myDiaryInfo.setWeek(week);
-                myDiaryInfo.setDiaryInfo(diaryInfo);
-                myDiaryInfo.setId(id);
-                listInfo.add(myDiaryInfo);
+                if(cursor.getString(cursor.getColumnIndex("diaryinfo")).equals("")){
+                    EmptyInfoModel myEmptyInfo = new EmptyInfoModel();
+                    myEmptyInfo.setYear(current_year);
+                    myEmptyInfo.setMonth(current_month);
+                    myEmptyInfo.setDay(String.valueOf(i + 1));
+                    myEmptyInfo.setImgResourceID(R.id.empty_img);
+                    listEmpty.add(myEmptyInfo);
+                }else{
+                    MyDiaryInfoModel myDiaryInfo = new MyDiaryInfoModel();
+                    int id = cursor.getInt(cursor.getColumnIndex("id"));
+                    String date = cursor.getString(cursor.getColumnIndex("date"));
+                    String week = cursor.getString(cursor.getColumnIndex("week"));
+                    String year = cursor.getString(cursor.getColumnIndex("year"));
+                    String month = cursor.getString(cursor.getColumnIndex("month"));
+                    String day = cursor.getString(cursor.getColumnIndex("day"));
+                    String diaryInfo = cursor.getString(cursor.getColumnIndex("diaryinfo"));
+                    myDiaryInfo.setDate(date);
+                    myDiaryInfo.setYear(year);
+                    myDiaryInfo.setMonth(month);
+                    myDiaryInfo.setDay(day);
+                    myDiaryInfo.setWeek(week);
+                    myDiaryInfo.setDiaryInfo(diaryInfo);
+                    myDiaryInfo.setId(id);
+                    listInfo.add(myDiaryInfo);
+                }
             }
         }
         cursor.close();
@@ -87,4 +97,5 @@ public class DataBaseOperate {
         }
         return number;
     }
+
 }

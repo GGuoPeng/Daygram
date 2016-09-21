@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,10 +14,12 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,7 +27,9 @@ import java.util.HashMap;
 
 import cn.edu.jnu.diagram.R;
 import cn.edu.jnu.diagram.db.DataBaseHelper;
+
 import android.util.Log;
+
 /**
  * Created by lenovo on 2016/9/9.
  */
@@ -32,21 +37,19 @@ import android.util.Log;
 public class WriteDiaryActivity extends Activity {
     private TextView timeTextView = null;
     private TextView weekTextView = null;
-    private int id;
     private Button cancel = null;
     private Button confirm = null;
+    private ImageView clock = null;
     String diaryinfo = "";
-    private SimpleDateFormat simpleDateFormat = null;
-    public static final int WEEKDAYS = 7;
     public static EditText diaryInfo = null;
     public static String[] WEEK = {
-            "Sunday",
             "Monday",
             "Tuesday",
             "Wednesday",
             "Thursday",
             "Friday",
             "Saturday",
+            "Sunday",
     };
 
     @Override
@@ -64,10 +67,10 @@ public class WriteDiaryActivity extends Activity {
         String month = intent.getStringExtra("month");
         String day = intent.getStringExtra("day");
         timeTextView = (TextView) findViewById(R.id.time);
-        String date = year +"-"+month+"-"+day;
+        String date = year + "-" + month + "-" + day;
         timeTextView.setText(date);
         weekTextView = (TextView) findViewById(R.id.week);
-        weekTextView.setText(intent.getStringExtra("week"));
+        weekTextView.setText(DateToWeek(year, month, day));
         DataBaseHelper dbHelper = new DataBaseHelper(this, "mydiary.db");
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] selectionArgs = new String[]{year, month, day};
@@ -80,6 +83,7 @@ public class WriteDiaryActivity extends Activity {
             diaryInfo.setText(cursor.getString(cursor.getColumnIndex("diaryinfo")));
             diaryinfo = cursor.getString(cursor.getColumnIndex("diaryinfo"));
         }
+        //取消按钮
         cancel = (Button) findViewById(R.id.cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -88,7 +92,7 @@ public class WriteDiaryActivity extends Activity {
                 startActivity(intent);
             }
         });
-
+        //确定按钮
         confirm = (Button) findViewById(R.id.confirm);
         confirm.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -98,25 +102,33 @@ public class WriteDiaryActivity extends Activity {
                 startActivity(intent);
             }
         });
-    }
-
-    public static String DateToWeek(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        int dayIndex = calendar.get(Calendar.DAY_OF_WEEK);
-        if (dayIndex < 1 || dayIndex > WEEKDAYS) {
-            return null;
-        }
-        return WEEK[dayIndex - 1];
+        //时钟
+        clock = (ImageView) findViewById(R.id.clock);
+        clock.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                long time = System.currentTimeMillis();
+                final Calendar mCalendar = Calendar.getInstance();
+                mCalendar.setTimeInMillis(time);
+                int mHour = mCalendar.get(Calendar.HOUR);
+                int mMinutes = mCalendar.get(Calendar.MINUTE);
+                int mSeconds = mCalendar.get(Calendar.SECOND);
+                String current_time = String.valueOf(mHour)+":"+String.valueOf(mMinutes)+":"+String.valueOf(mSeconds);
+                int index = diaryInfo.getSelectionStart();//获取光标所在位置
+                Editable edit = diaryInfo.getEditableText();//获取EditText的文字
+                if (index < 0 || index >= edit.length() ){
+                    edit.append(current_time);
+                }else{
+                    edit.insert(index,current_time);//光标所在位置插入文字
+                }
+            }
+        });
     }
 
     public void backPressed(String diaryinfo) {
         //内容为空
         String dates = timeTextView.getText().toString();
         String[] datelist = dates.split("-");
-        Log.d("information",diaryinfo);
-        Log.d("information",diaryInfo.getText().toString());
-        if (diaryinfo==""&& !diaryInfo.getText().toString().equals(diaryinfo)) {
+        if (diaryinfo == "" && !diaryInfo.getText().toString().equals(diaryinfo)) {
             String insertSql = "insert into DIARY_INFO(date,year,month,day,week,diaryinfo) values" +
                     "('" + timeTextView.getText().toString() + "','" + datelist[0] + "','" + datelist[1] + "','"
                     + datelist[2] + "','" + weekTextView.getText().toString() +
@@ -124,21 +136,28 @@ public class WriteDiaryActivity extends Activity {
             DataBaseHelper dbHelper = new DataBaseHelper(this, "mydiary.db");
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             db.execSQL(insertSql);
-            Log.d("debug",insertSql);
             db.close();
             this.finish();
         } else {
             String updateInfo = "UPDATE DIARY_INFO SET date='" + timeTextView.getText().toString() +
                     "',week='" + weekTextView.getText().toString() + "',diaryinfo='" +
                     diaryInfo.getText().toString() +
-                    "' where year='" + datelist[0] + "'" +" and month = '"+datelist[1] +"'"
-                    +"and day = '"+datelist[2]+"'";
-            Log.d("write",updateInfo);
+                    "' where year='" + datelist[0] + "'" + " and month = '" + datelist[1] + "'"
+                    + "and day = '" + datelist[2] + "'";
             DataBaseHelper dbHelper = new DataBaseHelper(this, "mydiary.db");
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             db.execSQL(updateInfo);
             db.close();
             this.finish();
         }
+    }
+
+    public String DateToWeek(String year, String monthOfYear, String dayOfMonth) {
+        int y = Integer.valueOf(year);
+        int m = Integer.valueOf(monthOfYear);
+        int c = 20;
+        int d = Integer.valueOf(dayOfMonth) + 12;
+        int w = (y + (y / 4) + (c / 4) - 2 * c + (26 * (m + 1) / 10) + d - 1) % 7;
+        return WEEK[w];
     }
 }

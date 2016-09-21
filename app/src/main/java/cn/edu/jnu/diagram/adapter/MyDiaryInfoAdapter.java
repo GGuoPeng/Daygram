@@ -147,7 +147,6 @@ public class MyDiaryInfoAdapter extends BaseAdapter {
                 EmptyInfoModel b = (EmptyInfoModel) o;
                 holderEmpty.date = b.getDate();
                 holderEmpty.img.setImageResource((Integer)holderEmpty.img.getTag());
-                Log.d("adapter","empty");
                 break;
         }
         return convertView;

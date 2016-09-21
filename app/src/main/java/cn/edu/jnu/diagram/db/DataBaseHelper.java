@@ -12,7 +12,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
     public DataBaseHelper(Context context,String name){
         this(context, name,VERSION);
-        Log.d("debug","database helper");
     }
     public DataBaseHelper(Context context,String name,int version){
         this(context, name,null,version);
@@ -21,10 +20,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             "(date TEXT,year TEXT,month TEXT,day TEXT,week TEXT,diaryinfo TEXT,id INTEGER PRIMARY KEY AUTOINCREMENT)";
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d("debug","db create");
         // TODO Auto-generated method stub
         try {
-            Log.d("db","exec");
             db.execSQL(TABLE_INFO);
         } catch (Exception e) {
             // TODO: handle exception

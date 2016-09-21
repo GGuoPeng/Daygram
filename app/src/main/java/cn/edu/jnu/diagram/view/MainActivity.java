@@ -13,11 +13,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,11 +41,11 @@ public class MainActivity extends Activity {
     private TextView diaryShowDate = null;
     private DataBaseOperate dbOperate = null;
     private MyDiaryInfoAdapter myDiaryInfoAdapter = null;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-
     }
 
     @Override
@@ -58,7 +60,7 @@ public class MainActivity extends Activity {
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1; // 注意点，一月是从0开始计算的！！！  
         int day = cal.get(Calendar.DAY_OF_MONTH);
-        showDate.setText(String.valueOf(year)+"-"+String.valueOf(month));
+        showDate.setText(String.valueOf(year) + "-" + String.valueOf(month));
         dPicker.init(year, cal.get(Calendar.MONTH), day, new DatePicker.OnDateChangedListener() {
             @Override
             // 参数依次是：view，year,monthOfYear,dayOfMonth  
@@ -68,6 +70,7 @@ public class MainActivity extends Activity {
                 refreshDiaryInfo(myDiaryInfoListView, datePicker, "DIARY_INFO");
             }
         });
+        hidDay(dPicker);
     }
 
     public void init() {
@@ -85,7 +88,7 @@ public class MainActivity extends Activity {
 
     public void refreshDiaryInfo(ListView listView, DatePicker dpPicker, String tableName) {
         String current_year = String.valueOf(dpPicker.getYear());
-        String current_month = String.valueOf(dpPicker.getMonth()+1);
+        String current_month = String.valueOf(dpPicker.getMonth() + 1);
         dbOperate.showInfo(tableName, current_year, current_month);
         myDiaryInfoAdapter = new MyDiaryInfoAdapter(this, listInfo, listEmpty);
         listView.setAdapter(myDiaryInfoAdapter);
@@ -100,18 +103,37 @@ public class MainActivity extends Activity {
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, WriteDiaryActivity.class);
             //点击了有信息的日记
-            if (myDiaryInfoListView.getAdapter().getItemViewType(position)==0) {
-                intent.putExtra("year",String.valueOf(datePicker.getYear()));
-                intent.putExtra("month",String.valueOf(datePicker.getMonth()+1));
-                intent.putExtra("day",String.valueOf(position+1));
+            if (myDiaryInfoListView.getAdapter().getItemViewType(position) == 0) {
+                intent.putExtra("year", String.valueOf(datePicker.getYear()));
+                intent.putExtra("month", String.valueOf(datePicker.getMonth() + 1));
+                intent.putExtra("day", String.valueOf(position + 1));
                 startActivity(intent);
             }
             //无信息的日记
             else {
-                intent.putExtra("year",String.valueOf(datePicker.getYear()));
-                intent.putExtra("month",String.valueOf(datePicker.getMonth()+1));
-                intent.putExtra("day",String.valueOf(position+1));
+                intent.putExtra("year", String.valueOf(datePicker.getYear()));
+                intent.putExtra("month", String.valueOf(datePicker.getMonth() + 1));
+                intent.putExtra("day", String.valueOf(position + 1));
                 startActivity(intent);
+            }
+        }
+    }
+
+    private void hidDay(DatePicker mDatePicker) {
+        Field[] datePickerfFields = mDatePicker.getClass().getDeclaredFields();
+        for (Field datePickerField : datePickerfFields) {
+            if ("mDaySpinner".equals(datePickerField.getName())) {
+                datePickerField.setAccessible(true);
+                Object dayPicker = new Object();
+                try {
+                    dayPicker = datePickerField.get(mDatePicker);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                }
+                // datePicker.getCalendarView().setVisibility(View.GONE);
+                ((View) dayPicker).setVisibility(View.GONE);
             }
         }
     }
